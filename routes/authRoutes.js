@@ -7,11 +7,11 @@ const keys = require('../config/keys');
 
 module.exports = app => {
 
-    app.post('/auth/login', passport.authenticate('local'), (req, res) => {
-        res.send({done: true});
+    app.post('/api/' + keys.apiVersion + '/auth/login', passport.authenticate('local'), (req, res) => {
+        res.send({user: req.user.filter(['password'])});
     });
 
-    app.get('/auth/logout', (req, res) => {
+    app.get('/api/' + keys.apiVersion + '/auth/logout', (req, res) => {
         res.send({action: 'logout'});
     });
 

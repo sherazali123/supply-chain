@@ -3,6 +3,19 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = mongoose.model('users');
 
+// serialize user to help passport to set cookie on client
+passport.serializeUser((user, done) => {
+    // user serialized user as mongo id
+    done(null, user.id);
+});
+
+// deserialize user from the id (serialized user)
+passport.deserializeUser((id, done) => {
+    User.findById(id).then(user => {
+        done(null, user);
+    });
+});
+
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
